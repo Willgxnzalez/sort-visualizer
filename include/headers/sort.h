@@ -3,14 +3,28 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "graphics.h"
 using namespace std;
 
-class Sort {
+class Sorter {
     const string type;
+
     public:
-        Sort(const string & t) :type(t) {}
-        ~Sort() {}
+        Sorter(const string & t) :type(t) {}
+
+        virtual void sort() = 0;
+
+        virtual ~Sorter() {}
+
+    protected:
+        vector<int> vec;
+
+    private:
+        void populate(vector<int> &vec);
+        
+
+        
 };
 
 #endif

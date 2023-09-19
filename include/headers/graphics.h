@@ -5,4 +5,21 @@
 #include <../SDL2/SDL.h>
 using namespace std;
 
+class Graphics {
+    public:
+        Graphics() {}
+
+        void init();
+        void draw_state(vector<int> & vec);
+
+        ~Graphics() {}
+
+    private:
+        SDL_Window * window;
+        SDL_Renderer * renderer;
+
+        int _screenWidth;
+        int _ScreenHeight;
+};
+
 #endif
