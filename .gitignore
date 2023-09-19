@@ -1,3 +1,5 @@
 .vsvode/
 *.exe
-*.o
+*.out
+include/SDL2/
+lib/
