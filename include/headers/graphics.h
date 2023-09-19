@@ -7,12 +7,12 @@ using namespace std;
 
 class Graphics {
     public:
-        Graphics() {}
+        Graphics();
 
-        void init() { cout << "initializing graphics engine" << endl; }
+        void init();
         void draw_state(vector<int> & vec);
 
-        ~Graphics() {}
+        ~Graphics();
 
     private:
         SDL_Window * window;

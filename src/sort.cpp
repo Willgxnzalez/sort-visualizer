@@ -19,8 +19,9 @@ bool Sorter::sorted(vector<int> & vec) {
 }
 
 void NaiveSorter::sort() {
-    for (int i=0; i < vec.size(); ++i) {
-        for (int j=i+1; j < vec.size(); ++j)
+    int len = vec.size();
+    for (int i=0; i < len; ++i) {
+        for (int j=i+1; j < len; ++j)
             if (vec[i] > vec[j])
                 std::swap(vec[i], vec[j]);
     }
