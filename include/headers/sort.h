@@ -11,7 +11,11 @@ class Sorter {
     const string type;
 
     public:
-        Sorter(const string & t) :type(t) {}
+        Sorter(const string & t) :type(t) {
+            Graphics engine;
+            engine.init();
+            populate(vec);
+        }
 
         virtual void sort() = 0;
 
@@ -21,10 +25,16 @@ class Sorter {
         vector<int> vec;
 
     private:
-        void populate(vector<int> &vec);
-        
+        void populate(vector<int> &vec);  
+};
 
-        
+class SwapSorter : public Sorter {
+    public:
+        SwapSorter() : Sorter("SwapSorter") {}
+
+        void sort();
+
+        ~SwapSorter() {}
 };
 
 #endif

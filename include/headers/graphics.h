@@ -9,7 +9,7 @@ class Graphics {
     public:
         Graphics() {}
 
-        void init();
+        void init() { cout << "initializing graphics engine" << endl; }
         void draw_state(vector<int> & vec);
 
         ~Graphics() {}

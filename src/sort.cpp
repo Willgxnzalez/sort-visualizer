@@ -9,3 +9,7 @@ void Sorter::populate(vector<int> &vec) {
     for (int i=0; i<100; ++i)
         vec.push_back(d(rd));
 }
+
+void SwapSorter::sort() {
+    cout << "Sorting!" << endl;
+}
