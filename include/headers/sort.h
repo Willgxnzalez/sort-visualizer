@@ -12,29 +12,31 @@ class Sorter {
 
     public:
         Sorter(const string & t) :type(t) {
-            Graphics engine;
             engine.init();
             populate(vec);
         }
 
         virtual void sort() = 0;
 
+        bool sorted(vector<int> &vec);
+
         virtual ~Sorter() {}
 
     protected:
         vector<int> vec;
+        Graphics engine;
 
     private:
         void populate(vector<int> &vec);  
 };
 
-class SwapSorter : public Sorter {
+class NaiveSorter : public Sorter {
     public:
-        SwapSorter() : Sorter("SwapSorter") {}
+        NaiveSorter() : Sorter("NaiveSorter") {}
 
         void sort();
 
-        ~SwapSorter() {}
+        ~NaiveSorter() {}
 };
 
 #endif

@@ -10,6 +10,19 @@ void Sorter::populate(vector<int> &vec) {
         vec.push_back(d(rd));
 }
 
-void SwapSorter::sort() {
-    cout << "Sorting!" << endl;
+bool Sorter::sorted(vector<int> & vec) {
+    int len = vec.size();
+    for (int i=1; i<len; ++i)
+        if (vec[i-1] > vec[i])
+            return false;
+    return true;
+}
+
+void NaiveSorter::sort() {
+    for (int i=0; i < vec.size(); ++i) {
+        for (int j=i+1; j < vec.size(); ++j)
+            if (vec[i] > vec[j])
+                std::swap(vec[i], vec[j]);
+    }
+    
 }

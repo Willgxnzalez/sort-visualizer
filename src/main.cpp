@@ -3,8 +3,8 @@
 using namespace std;
 
 int main() {
-    SwapSorter ss;
-    ss.sort();
+    NaiveSorter ns;
+    ns.sort();
 
     return 0;
 }
