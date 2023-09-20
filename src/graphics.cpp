@@ -15,6 +15,11 @@ Graphics::Graphics() :
 
 Graphics::~Graphics() {}
 
+Graphics::~Graphics() {
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+}
+
 void Graphics::init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         cout << "SDL not initialized: " << SDL_GetError() << endl;
