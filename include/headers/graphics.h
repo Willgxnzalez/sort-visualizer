@@ -11,6 +11,8 @@ class Graphics {
 
         void init();
         void draw_state(vector<int> & vec);
+        void clear_screen();
+        void update();
 
         ~Graphics();
 
@@ -18,8 +20,13 @@ class Graphics {
         SDL_Window * window;
         SDL_Renderer * renderer;
 
+        int _scaleX;
+        int _scaleY;
+
         int _screenWidth;
         int _ScreenHeight;
+
+        int _drawDelay;
 };
 
 #endif

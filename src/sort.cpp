@@ -21,9 +21,14 @@ bool Sorter::sorted(vector<int> & vec) {
 void NaiveSorter::sort() {
     int len = vec.size();
     for (int i=0; i < len; ++i) {
-        for (int j=i+1; j < len; ++j)
+        for (int j=i+1; j < len; ++j) {
             if (vec[i] > vec[j])
                 std::swap(vec[i], vec[j]);
+            engine.clear_screen();
+            engine.draw_state(vec);
+
+            engine.update();
+        }
     }
     
 }

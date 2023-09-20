@@ -17,9 +17,7 @@ class Sorter {
         }
 
         virtual void sort() = 0;
-
         bool sorted(vector<int> &vec);
-
         virtual ~Sorter() {}
 
     protected:
@@ -33,9 +31,7 @@ class Sorter {
 class NaiveSorter : public Sorter {
     public:
         NaiveSorter() : Sorter("NaiveSorter") {}
-
         void sort();
-
         ~NaiveSorter() {}
 };
 
