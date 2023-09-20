@@ -1,5 +1,9 @@
-.vsvode/
+.vscode/
 *.exe
 *.out
 include/SDL2/
 lib/
+Makefile
+sdl2-config
+SDL2.dll
+git ad

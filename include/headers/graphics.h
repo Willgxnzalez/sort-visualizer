@@ -2,6 +2,7 @@
 #define GRAPHICS_H
 
 #include <iostream>
+#include <vector>
 #include <../SDL2/SDL.h>
 using namespace std;
 

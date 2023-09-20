@@ -2,7 +2,7 @@
 #include "sort.h"
 using namespace std;
 
-int main() {
+int main(int argv, char **args) {
     NaiveSorter ns;
     ns.sort();
 
