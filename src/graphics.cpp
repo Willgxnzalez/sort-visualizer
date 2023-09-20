@@ -13,11 +13,10 @@ Graphics::Graphics() :
     _drawDelay(5)
 {}
 
-Graphics::~Graphics() {}
-
 Graphics::~Graphics() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    SDL_Quit();
 }
 
 void Graphics::init() {
