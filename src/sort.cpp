@@ -25,8 +25,45 @@ void BubbleSorter::sort(vector<int> &v) {
         for (int j=i+1; j < len; ++j) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
-            app.visualize();
+            app.visualize(i, j);
             app.delay(5);
         }
+    }
+}
+
+void QuickSorter::sort(vector<int> &v) {
+    quicksort(v, 0, v.size());
+}
+
+int QuickSorter::medianOfThree(vector<int> &v, int low, int high) {
+    int mid = (low + high) / 2;
+    if (v[mid] < v[low]) std::swap(v[low], v[mid]);
+    if (v[high] < v[low]) std::swap(v[low], v[high]);
+    if (v[mid] < v[high]) std::swap(v[mid], v[high]);
+    app.visualize();
+    app.delay(5);
+    return high;
+}
+
+int QuickSorter::partition(vector<int> &v, int low, int high) {
+    int pivot_index = medianOfThree(v, low, high);
+    for (int j = low; j < high; j++) {
+        if (v[j] <= v[pivot_index]) {
+            std::swap(v[low], v[j]);
+            app.visualize(pivot_index, j, low);
+            app.delay(20);
+            ++low;
+        }
+    }
+    std::swap(v[low], v[high]);
+    return low;
+
+}
+
+void QuickSorter::quicksort(vector<int> &v, int low, int high) {
+    if (low < high) {
+        int pivot = partition(v, low, high);
+        quicksort(v, low, pivot-1);
+        quicksort(v, pivot+1, high);
     }
 }
