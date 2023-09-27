@@ -55,7 +55,7 @@ void App::visualize(int h1, int h2, int h3, bool complete) {
 
     int len = v.size();
     for (int i=0; i < len; ++i) {
-        SDL_Rect rect{i * _scaleX, _ScreenHeight - (v[i] * _scaleY), _scaleX, v[i] * _scaleY};
+        SDL_Rect rect{i * _scaleX, _ScreenHeight - (v[i] * _scaleY) + 1, _scaleX, v[i] * _scaleY};
         if (complete) {
             SDL_SetRenderDrawColor(ren, 90,113,155, 255);
             SDL_RenderFillRect(ren, &rect);
@@ -74,7 +74,6 @@ void App::visualize(int h1, int h2, int h3, bool complete) {
             SDL_RenderDrawRect(ren, &rect);
         }
     }
-
     SDL_RenderPresent(ren);
 }
 
@@ -103,11 +102,14 @@ void App::run() {
                         sorter = new BubbleSorter(*this);
                     } else if (key == SDLK_2) {
                         sorter = new QuickSorter(*this);
+                    } else if (key == SDLK_3) {
+                        sorter = new InsertionSorter(*this);
                     } else break;
+
                     sorter->sort(v);
                     delete sorter;
 
-                    if (Sorter::sorted(v))
+                    if (Sorter::isSorted(v))
                         visualize(-1,-1,-1,true);
                 }
             }

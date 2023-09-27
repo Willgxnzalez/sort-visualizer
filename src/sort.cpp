@@ -11,7 +11,7 @@ void Sorter::randomizeVector(vector<int> &v) {
         v.push_back(d(rd));
 }
 
-bool Sorter::sorted(vector<int> & v) {
+bool Sorter::isSorted(vector<int> & v) {
     int len = v.size();
     for (int i=1; i<len; ++i)
         if (v[i-1] > v[i])
@@ -65,5 +65,16 @@ void QuickSorter::quicksort(vector<int> &v, int low, int high) {
         int pivot = partition(v, low, high);
         quicksort(v, low, pivot-1);
         quicksort(v, pivot+1, high);
+    }
+}
+
+void InsertionSorter::sort(vector<int> &v) {
+    int len = v.size();
+    for (int i=0; i < len; ++i) { // iterate over the array
+        for (int j=i; j > 0 && v[j-1] > v[j]; --j) {
+            std::swap(v[j-1], v[j]);
+            app.visualize(j, j-1);
+            app.delay(10);
+        }
     }
 }
