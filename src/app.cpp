@@ -30,8 +30,9 @@ bool App::init() {
         cout << "SDL system not initialized: " << SDL_GetError() << endl;
         success = false;
     }
-
-    SDL_CreateWindowAndRenderer(_screenWidth, _ScreenHeight, 0, &win, &ren);
+    win = SDL_CreateWindow("Sorting Algorithm Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _ScreenHeight, SDL_WINDOW_SHOWN);
+    ren = SDL_CreateRenderer(win, -1, 0);
+    //SDL_CreateWindowAndRenderer(_screenWidth, _ScreenHeight, 0, &win, &ren);
     clear_screen();
 
     return success;
@@ -53,6 +54,7 @@ void App::visualize() {
     int index = 0;
     for (int rect_height : v) {
         SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
+        //SDL_Rect rect{index * _scaleX, 0, _scaleX, rect_height * _scaleY};  //draw in top right corner
         SDL_Rect rect{index * _scaleX, _ScreenHeight - (rect_height * _scaleY), _scaleX, rect_height * _scaleY};
         SDL_RenderDrawRect(ren, &rect); // creates hollow rectangles
         //SDL_RenderFillRect(_ren, &rect);
@@ -78,28 +80,18 @@ void App::run() {
                     if (key == SDLK_q) {
                         run = false;
                         break;
+                    } else if (key == SDLK_0) {
+                        Sorter::randomizeVector(v);
+                        visualize();
+                        break;
+
                     } else if (key == SDLK_1) {
-                        sorter = new NaiveSorter(*this);
+                        sorter = new BubbleSorter(*this);
                     }
-                    /*
-                    switch(E.key.keysym.sym) {
-                        case SDLK_q:
-                            run = false;
-                            break;
-                        case SDLK_1:
-                            cout << "NaiveSorter" << endl;
-                            sorter = new NaiveSorter(*this);
-                            break;
-                            //sorter = new NaiveSorter((*this));
-                    }
-                    */
-                 
                     sorter->sort(v);
                     delete sorter;
-                    cout << "Sorting complete" << endl;
                 }
             }
-            visualize();
         }
         return;
     } else {

@@ -4,6 +4,7 @@
 using namespace std;
 
 void Sorter::randomizeVector(vector<int> &v) {
+    v.clear();
     std::random_device rd;
     std::uniform_int_distribution d(1,99);
     for (int i=0; i<100; ++i)
@@ -18,7 +19,7 @@ bool Sorter::sorted(vector<int> & v) {
     return true;
 }
 
-void NaiveSorter::sort(vector<int> &v) {
+void BubbleSorter::sort(vector<int> &v) {
     int len = v.size();
     for (int i=0; i < len; ++i) {
         for (int j=i+1; j < len; ++j) {

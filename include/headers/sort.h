@@ -22,11 +22,11 @@ class Sorter {
 
 };
 
-class NaiveSorter : public Sorter {
+class BubbleSorter : public Sorter {
     public:
-        NaiveSorter(App &a) : Sorter("NaiveSorter", a) {}
+        BubbleSorter(App &a) : Sorter("BubbleSorter", a) {}
         void sort(vector<int> &v);
-        ~NaiveSorter() {}
+        ~BubbleSorter() {}
 };
 
 #endif
