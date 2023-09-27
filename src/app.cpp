@@ -106,6 +106,8 @@ void App::run() {
                         sorter = new InsertionSorter(*this);
                     }  else if (key == SDLK_4) {
                         sorter = new SelectionSorter(*this);
+                    } else if (key == SDLK_5) {
+                        sorter = new MergeSorter(*this);
                     } else break;
 
                     sorter->sort(v);

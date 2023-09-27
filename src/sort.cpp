@@ -26,7 +26,7 @@ void BubbleSorter::sort(vector<int> &v) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
             app.visualize(i, j);
-            //app.delay(5);
+            app.delay(2);
         }
     }
 }
@@ -71,7 +71,7 @@ void QuickSorter::quicksort(vector<int> &v, int low, int high) {
 void InsertionSorter::sort(vector<int> &v) {
     int len = v.size();
     for (int i=0; i < len; ++i) { // iterate over the array
-        for (int j=i; j > 0 && v[j-1] > v[j]; --j) {
+        for (int j=i; j > 0 && v[j-1] > v[j]; --j) { // keep swapping with smaller previous value until in correct position
             std::swap(v[j-1], v[j]);
             app.visualize(j, j-1);
             app.delay(10);
@@ -83,7 +83,7 @@ void SelectionSorter::sort(vector<int> &v) {
     int len = v.size();
     for (int i=0; i < len; ++i) {
         int min = i;
-        for (int j=i+1; j < len; ++j) {
+        for (int j=i+1; j < len; ++j) {  // finds the new minimum
             if (v[j] < v[min]) {
                 min = j;
                 app.visualize(i, min);
@@ -91,6 +91,68 @@ void SelectionSorter::sort(vector<int> &v) {
             }
         }
         if (i != min)
-            std::swap(v[min], v[i]);
+            std::swap(v[min], v[i]); // swaps current value with newest minimum
     }
+}
+
+void MergeSorter::sort(vector<int> &v) {
+    mergeSort(v, 0, v.size());
+}
+
+void MergeSorter::mergeSort(vector<int> &v, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) /2;
+        mergeSort(v, left, mid);
+        mergeSort(v, mid+1, right);
+        merge(v, left, mid, right);
+    }
+}
+
+void MergeSorter::merge(vector<int> &v, int left, int mid, int right) {
+    int i, j, k;
+    int nleft = mid - left + 1;
+    int nright = right - mid;
+    int larr[nleft], rarr[nright];
+
+    for (i=0; i < nleft; ++i)
+        larr[i] = v[left+i];
+    for (j=0; j < nright; ++j)
+        rarr[j] = v[mid+1+j];
+
+    /*
+        for (auto i : larr)
+        cout << i << " ";
+    
+    for (auto i : rarr)
+        cout << i << " ";
+    
+    */
+
+    i = 0, j = 0; k = 1;
+
+    while (i < nleft && j < nright) { // if both are not empty
+        if (larr[i] <= rarr[j]) {
+            v[k] = larr[i];
+            app.visualize();
+            ++i;
+        } else {
+            v[k] = rarr[i];
+            app.visualize();
+            ++j;
+        }
+        ++k;
+    }
+
+    while (i < nleft) {
+        v[k] = larr[i];
+        app.visualize();
+        ++i; ++k;
+    }
+
+    while (j < nright) {
+        v[k] = rarr[j];
+        app.visualize();
+        ++j; ++k;
+    }
+
 }

@@ -53,4 +53,14 @@ class SelectionSorter : public Sorter {
         ~SelectionSorter() {}
 };
 
+class MergeSorter : public Sorter {
+    public:
+        MergeSorter(App &a) : Sorter(a) {}
+        void sort(vector<int> &v);
+        ~MergeSorter() {}
+    private:
+        void merge(vector<int> &v, int left, int mid, int right);
+        void mergeSort(vector<int> &v, int left,int right);
+};
+
 #endif
