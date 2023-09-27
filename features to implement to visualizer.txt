@@ -1,0 +1,5 @@
+features to implement to visualizer
+
+user menu to select which sorting algo to visualize
+user option to determine array size
+user option to randomize array

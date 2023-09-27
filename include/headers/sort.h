@@ -4,34 +4,28 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "graphics.h"
+#include "app.h"
 using namespace std;
 
 class Sorter {
     const string type;
-
     public:
-        Sorter(const string & t) :type(t) {
-            engine.init();
-            populate(vec);
-        }
-
-        virtual void sort() = 0;
-        bool sorted(vector<int> &vec);
+        Sorter(const string & t, App &a) :type(t), app(a) {}
+        
+        virtual void sort(vector<int> &v) = 0;
+        static bool sorted(vector<int> &v);
+        static void randomizeVector(vector<int> &v); 
         virtual ~Sorter() {}
 
     protected:
-        vector<int> vec;
-        Graphics engine;
+        App &app;
 
-    private:
-        void populate(vector<int> &vec);  
 };
 
 class NaiveSorter : public Sorter {
     public:
-        NaiveSorter() : Sorter("NaiveSorter") {}
-        void sort();
+        NaiveSorter(App &a) : Sorter("NaiveSorter", a) {}
+        void sort(vector<int> &v);
         ~NaiveSorter() {}
 };
 

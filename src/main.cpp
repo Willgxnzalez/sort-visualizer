@@ -1,10 +1,10 @@
 #include <iostream>
-#include "sort.h"
+#include <string>
+#include "app.h"
 using namespace std;
 
 int main(int argv, char **args) {
-    NaiveSorter ns;
-    ns.sort();
-
+    App app;
+    app.run();
     return 0;
 }

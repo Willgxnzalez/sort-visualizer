@@ -3,31 +3,29 @@
 #include <random>
 using namespace std;
 
-void Sorter::populate(vector<int> &vec) {
+void Sorter::randomizeVector(vector<int> &v) {
     std::random_device rd;
     std::uniform_int_distribution d(1,99);
     for (int i=0; i<100; ++i)
-        vec.push_back(d(rd));
+        v.push_back(d(rd));
 }
 
-bool Sorter::sorted(vector<int> & vec) {
-    int len = vec.size();
+bool Sorter::sorted(vector<int> & v) {
+    int len = v.size();
     for (int i=1; i<len; ++i)
-        if (vec[i-1] > vec[i])
+        if (v[i-1] > v[i])
             return false;
     return true;
 }
 
-void NaiveSorter::sort() {
-    int len = vec.size();
+void NaiveSorter::sort(vector<int> &v) {
+    int len = v.size();
     for (int i=0; i < len; ++i) {
         for (int j=i+1; j < len; ++j) {
-            if (vec[i] > vec[j])
-                std::swap(vec[i], vec[j]);
-            engine.clear_screen();
-            engine.draw_state(vec);
-
-            engine.update();
+            if (v[i] > v[j])
+                std::swap(v[i], v[j]);
+            app.visualize();
+            //engine.delay(5);
         }
     }
     
