@@ -12,7 +12,7 @@ class App {
 
         App();
         void run();
-        void visualize(int h1 = -1, int h2 = -1, int h3 = -1);
+        void visualize(int h1 = -1, int h2 = -1, int h3 = -1, bool complete = false);
         void clear_screen();
         void delay(int t2delay);
         ~App();

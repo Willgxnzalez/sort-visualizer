@@ -26,7 +26,7 @@ void BubbleSorter::sort(vector<int> &v) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
             app.visualize(i, j);
-            app.delay(5);
+            //app.delay(5);
         }
     }
 }
@@ -51,7 +51,7 @@ int QuickSorter::partition(vector<int> &v, int low, int high) {
         if (v[j] <= v[pivot_index]) {
             std::swap(v[low], v[j]);
             app.visualize(pivot_index, j, low);
-            app.delay(20);
+            app.delay(15);
             ++low;
         }
     }
