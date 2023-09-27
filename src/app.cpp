@@ -8,7 +8,7 @@ using namespace std;
 App::App() :
     win(nullptr),
     ren(nullptr),
-    _scaleX(7),
+    _scaleX(10),
     _scaleY(7),
     _screenWidth(100 * _scaleX),
     _ScreenHeight(100 * _scaleY)
@@ -32,14 +32,17 @@ bool App::init() {
 
     win = SDL_CreateWindow("Sorting Algorithm Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _ScreenHeight, SDL_WINDOW_SHOWN);
     ren = SDL_CreateRenderer(win, -1, 0);
+
+    SDL_SetRenderDrawColor(ren, 255,255,255, 255);
+    SDL_RenderClear(ren);
     
-    clear_screen();
+    visualize();
 
     return true;
 }
 
 void App::clear_screen() {
-    SDL_SetRenderDrawColor(ren, 0,0,0, 255);
+    SDL_SetRenderDrawColor(ren, 40,40,40, 5);
     SDL_RenderClear(ren);
 }
 
@@ -47,18 +50,23 @@ void App::delay(int t2delay) {  // wrapper method for delaying the next frame
     SDL_Delay(t2delay);
 }
 
-void App::visualize() {
+void App::visualize(int h1, int h2, int h3) {
     clear_screen(); // clear the screen before the next screen is drawn
 
     int len = v.size();
-    int index = 0;
-    for (int rect_height : v) {
-        SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
-        //SDL_Rect rect{index * _scaleX, 0, _scaleX, rect_height * _scaleY};  //draw in top right corner
-        SDL_Rect rect{index * _scaleX, _ScreenHeight - (rect_height * _scaleY), _scaleX, rect_height * _scaleY};
-        SDL_RenderDrawRect(ren, &rect); // creates hollow rectangles
-        //SDL_RenderFillRect(_ren, &rect);
-        ++index;
+    for (int i=0; i < len; ++i) {
+        SDL_Rect rect{i * _scaleX, _ScreenHeight - (v[i] * _scaleY), _scaleX, v[i] * _scaleY};
+        if (i == h1) {
+            SDL_SetRenderDrawColor(ren, 111,241,236, 255);
+            SDL_RenderFillRect(ren, &rect); // creates hollow rectangles
+        } else if (i == h2 || i == h3) {
+            SDL_SetRenderDrawColor(ren, 237,27,118, 255);
+            SDL_RenderFillRect(ren, &rect); // creates hollow rectangles
+        } else {
+            SDL_SetRenderDrawColor(ren, 255,255,255, 255);
+            SDL_RenderFillRect(ren, &rect); // creates hollow rectangles
+        }
+        //SDL_RenderFillRect(_ren, &rect); // creates fillled rectangles
     }
 
     SDL_RenderPresent(ren);
@@ -66,6 +74,7 @@ void App::visualize() {
 
 void App::run() {
     if (init()) {
+
         bool run = true;
         Sorter *sorter = nullptr;
 
@@ -87,15 +96,16 @@ void App::run() {
 
                     } else if (key == SDLK_1) {
                         sorter = new BubbleSorter(*this);
-                    }
+                    } else if (key == SDLK_2) {
+                        sorter = new QuickSorter(*this);
+                    } else break;
                     sorter->sort(v);
                     delete sorter;
                 }
             }
-        }
-        return;
+        } 
     } else {
         cout << "Visualizer failed to initialize" << endl;
+    
     }
-
 }
