@@ -25,17 +25,17 @@ App::~App() {
 }
 
 bool App::init() {
-    bool success = true;
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         cout << "SDL system not initialized: " << SDL_GetError() << endl;
-        success = false;
+        return false;
     }
+
     win = SDL_CreateWindow("Sorting Algorithm Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _ScreenHeight, SDL_WINDOW_SHOWN);
     ren = SDL_CreateRenderer(win, -1, 0);
-    //SDL_CreateWindowAndRenderer(_screenWidth, _ScreenHeight, 0, &win, &ren);
+    
     clear_screen();
 
-    return success;
+    return true;
 }
 
 void App::clear_screen() {

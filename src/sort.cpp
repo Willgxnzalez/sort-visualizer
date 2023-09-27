@@ -26,8 +26,7 @@ void BubbleSorter::sort(vector<int> &v) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
             app.visualize();
-            //engine.delay(5);
+            app.delay(5);
         }
     }
-    
 }
