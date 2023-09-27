@@ -46,4 +46,11 @@ class InsertionSorter : public Sorter {
         ~InsertionSorter() {}
 };
 
+class SelectionSorter : public Sorter {
+    public:
+        SelectionSorter(App &a) : Sorter(a) {}
+        void sort(vector<int> &v);
+        ~SelectionSorter() {}
+};
+
 #endif

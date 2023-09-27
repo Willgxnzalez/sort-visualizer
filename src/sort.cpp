@@ -78,3 +78,19 @@ void InsertionSorter::sort(vector<int> &v) {
         }
     }
 }
+
+void SelectionSorter::sort(vector<int> &v) {
+    int len = v.size();
+    for (int i=0; i < len; ++i) {
+        int min = i;
+        for (int j=i+1; j < len; ++j) {
+            if (v[j] < v[min]) {
+                min = j;
+                app.visualize(i, min);
+                app.delay(10);
+            }
+        }
+        if (i != min)
+            std::swap(v[min], v[i]);
+    }
+}

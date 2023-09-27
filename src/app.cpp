@@ -104,6 +104,8 @@ void App::run() {
                         sorter = new QuickSorter(*this);
                     } else if (key == SDLK_3) {
                         sorter = new InsertionSorter(*this);
+                    }  else if (key == SDLK_4) {
+                        sorter = new SelectionSorter(*this);
                     } else break;
 
                     sorter->sort(v);
