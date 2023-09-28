@@ -77,8 +77,21 @@ void App::visualize(int h1, int h2, int h3, bool complete) {
     SDL_RenderPresent(ren);
 }
 
+void App::menu() {
+    cout << "\n            SORTING VISUALIZER            \n"
+    << "------------------------------------------\n"
+    << "   Q: exit the sorting visualizer.\n"
+    << "   0: generate a new randomized array.\n"
+    << "   1: start Bubble Sort Algorithm.\n"
+    << "   2: start Quick Sort Algorithm.\n"
+    << "   3: start Insertion Sort Algorithm.\n"
+    << "   4: start Selection Sort Algorithm.\n"
+    << "\n\n[WARNING] Giving multiple commands at once can cause unexpected behavior. Please allow the current command to finish before giving another.";
+}
+
 void App::run() {
     if (init()) {
+        menu();
 
         bool run = true;
         Sorter *sorter = nullptr;

@@ -20,6 +20,7 @@ class App {
     private:
 
         bool init();
+        void menu();
 
         SDL_Window *win;
         SDL_Renderer *ren;
