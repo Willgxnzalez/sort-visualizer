@@ -41,7 +41,7 @@ int QuickSorter::medianOfThree(vector<int> &v, int low, int high) {
     if (v[high] < v[low]) std::swap(v[low], v[high]);
     if (v[mid] < v[high]) std::swap(v[mid], v[high]);
     app.visualize();
-    app.delay(5);
+    //app.delay(5);
     return high;
 }
 
@@ -51,7 +51,7 @@ int QuickSorter::partition(vector<int> &v, int low, int high) {
         if (v[j] <= v[pivot_index]) {
             std::swap(v[low], v[j]);
             app.visualize(pivot_index, j, low);
-            app.delay(15);
+            app.delay(10);
             ++low;
         }
     }

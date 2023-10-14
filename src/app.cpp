@@ -8,10 +8,11 @@ using namespace std;
 App::App() :
     win(nullptr),
     ren(nullptr),
-    _scaleX(10),
-    _scaleY(7),
-    _screenWidth(100 * _scaleX),
-    _ScreenHeight(100 * _scaleY)
+    scale(7),
+    sidebarWidth(300),
+    visWidth(100 * scale),
+    screenWidth(visWidth + sidebarWidth),
+    screenHeight(100 * scale)
 {
     Sorter::randomizeVector(v);
 }
@@ -30,20 +31,21 @@ bool App::init() {
         return false;
     }
 
-    win = SDL_CreateWindow("Sorting Algorithm Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _ScreenHeight, SDL_WINDOW_SHOWN);
+    win = SDL_CreateWindow("Sorting Algorithm Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     ren = SDL_CreateRenderer(win, -1, 0);
 
-    SDL_SetRenderDrawColor(ren, 255,255,255, 255);
-    SDL_RenderClear(ren);
-    
-    visualize();
+    render_background();
+    SDL_RenderPresent(ren);
 
     return true;
 }
 
-void App::clear_screen() {
-    SDL_SetRenderDrawColor(ren, 40,40,40, 5);
+void App::render_background() {
+    SDL_SetRenderDrawColor(ren, 24,24,24, 255);
     SDL_RenderClear(ren);
+    SDL_SetRenderDrawColor(ren, 60, 60, 60, 255);
+    SDL_Rect sidebar{visWidth, 0, sidebarWidth, screenHeight};
+    SDL_RenderFillRect(ren, &sidebar);
 }
 
 void App::delay(int t2delay) {  // wrapper method for delaying the next frame
@@ -51,26 +53,26 @@ void App::delay(int t2delay) {  // wrapper method for delaying the next frame
 }
 
 void App::visualize(int h1, int h2, int h3, bool complete) {
-    clear_screen(); // clear the screen before the next screen is drawn
+    render_background(); // clear the screen before the next screen is drawn
 
     int len = v.size();
     for (int i=0; i < len; ++i) {
-        SDL_Rect rect{i * _scaleX, _ScreenHeight - (v[i] * _scaleY) + 1, _scaleX, v[i] * _scaleY};
+        SDL_Rect rect{i * scale, screenHeight - (v[i] * scale) + 1, scale, v[i] * scale};
         if (complete) {
-            SDL_SetRenderDrawColor(ren, 90,113,155, 255);
+            SDL_SetRenderDrawColor(ren, 90, 113, 155, 255);
             SDL_RenderFillRect(ren, &rect);
-            SDL_SetRenderDrawColor(ren, 100,255,100, 255);
+            SDL_SetRenderDrawColor(ren, 100, 255, 100, 255);
             SDL_RenderDrawRect(ren, &rect);
         } else if (i == h1) {
-            SDL_SetRenderDrawColor(ren, 111,241,236, 255);
+            SDL_SetRenderDrawColor(ren, 111, 241, 236, 255);
             SDL_RenderFillRect(ren, &rect);
         } else if (i == h2 || i == h3) {
-            SDL_SetRenderDrawColor(ren, 237,27,118, 255);
+            SDL_SetRenderDrawColor(ren, 255,50,140, 255);
             SDL_RenderFillRect(ren, &rect);
         } else {
-            SDL_SetRenderDrawColor(ren, 90,113,155, 255);
+            SDL_SetRenderDrawColor(ren, 90, 113, 155, 255);
             SDL_RenderFillRect(ren, &rect);
-            SDL_SetRenderDrawColor(ren, 40,40,40, 255);
+            SDL_SetRenderDrawColor(ren, 24, 24, 24, 255); //draw small borders
             SDL_RenderDrawRect(ren, &rect);
         }
     }
@@ -91,7 +93,7 @@ void App::run() {
                     run = false;
                 else if (E.type == SDL_KEYDOWN) {
                     auto key = E.key.keysym.sym;
-                    if (key == SDLK_q) {
+                    if (key == SDLK_q  || key == SDLK_ESCAPE) {
                         run = false;
                         break;
                     } else if (key == SDLK_0) {
@@ -115,6 +117,7 @@ void App::run() {
                         visualize(-1,-1,-1,true);
                 }
             }
+
         } 
     } else {
         cout << "Visualizer failed to initialize" << endl;
