@@ -13,7 +13,7 @@ class App {
         App();
         void run();
         void visualize(int h1 = -1, int h2 = -1, int h3 = -1, bool complete = false);
-        void clear_screen();
+        void render_background();
         void delay(int t2delay);
         ~App();
 
@@ -25,11 +25,12 @@ class App {
         SDL_Window *win;
         SDL_Renderer *ren;
 
-        int _scaleX;
-        int _scaleY;
+        const int scale;
+        const int sidebarWidth;
+        const int visWidth;
 
-        int _screenWidth;
-        int _ScreenHeight;
+        const int screenWidth;
+        const int screenHeight;
 
 };
 
