@@ -1,15 +1,6 @@
-#include "sort.h"
 #include <iostream>
 #include <random>
-using namespace std;
-
-void Sorter::randomizeVector(vector<int> &v) {
-    v.clear();
-    std::random_device rd;
-    std::uniform_int_distribution d(1,99);
-    for (int i=0; i<100; ++i)
-        v.push_back(d(rd));
-}
+#include "sort.hpp"
 
 bool Sorter::isSorted(vector<int> & v) {
     int len = v.size();
@@ -19,14 +10,58 @@ bool Sorter::isSorted(vector<int> & v) {
     return true;
 }
 
+void Sorter::randomizeVector(vector<int> &v) {
+    v.clear();
+    std::random_device rd;
+    std::uniform_int_distribution d(1,99);
+    for (int i=0; i<100; ++i)
+        v.push_back(d(rd));
+}
+
+void Sorter::setRenderer(SDL_Renderer *r) { ren = r; }
+
+void Sorter::clear_vis_screen() {
+    SDL_SetRenderDrawColor(ren, 24,24,24, 255);
+    SDL_Rect visScreen{0, 0, visWidth, screenHeight};
+    SDL_RenderFillRect(ren, &visScreen);
+}
+
+void Sorter::visualize(vector<int> &v, int h1, int h2, int h3, bool complete) {
+    clear_vis_screen(); // clear the screen before the next screen is drawn
+
+    int len = v.size();
+    for (int i=0; i < len; ++i) {
+        SDL_Rect rect{i * scale, screenHeight - (v[i] * scale), scale, v[i] * scale};
+        if (complete) {
+            SDL_SetRenderDrawColor(ren, 90, 113, 155, 255);
+            SDL_RenderFillRect(ren, &rect);
+            SDL_SetRenderDrawColor(ren, 100, 255, 100, 255);
+            SDL_RenderDrawRect(ren, &rect);
+        } else if (i == h1) {
+            SDL_SetRenderDrawColor(ren, 111, 241, 236, 255);
+            SDL_RenderFillRect(ren, &rect);
+        } else if (i == h2 || i == h3) {
+            SDL_SetRenderDrawColor(ren, 255,50,140, 255);
+            SDL_RenderFillRect(ren, &rect);
+        } else {
+            SDL_SetRenderDrawColor(ren, 90, 113, 155, 255);
+            SDL_RenderFillRect(ren, &rect);
+            SDL_SetRenderDrawColor(ren, 24, 24, 24, 255); //draw small borders
+            SDL_RenderDrawRect(ren, &rect);
+        }
+    }
+    SDL_RenderPresent(ren);
+}
+
+
 void BubbleSorter::sort(vector<int> &v) {
     int len = v.size();
     for (int i=0; i < len; ++i) {
         for (int j=i+1; j < len; ++j) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
-            app.visualize(i, j);
-            app.delay(2);
+            Sorter::visualize(v, i, j);
+            SDL_Delay(2);
         }
     }
 }
@@ -40,8 +75,8 @@ int QuickSorter::medianOfThree(vector<int> &v, int low, int high) {
     if (v[mid] < v[low]) std::swap(v[low], v[mid]);
     if (v[high] < v[low]) std::swap(v[low], v[high]);
     if (v[mid] < v[high]) std::swap(v[mid], v[high]);
-    app.visualize();
-    //app.delay(5);
+    Sorter::visualize(v);
+    //SDL_Delay(5);
     return high;
 }
 
@@ -50,8 +85,8 @@ int QuickSorter::partition(vector<int> &v, int low, int high) {
     for (int j = low; j < high; j++) {
         if (v[j] <= v[pivot_index]) {
             std::swap(v[low], v[j]);
-            app.visualize(pivot_index, j, low);
-            app.delay(10);
+            Sorter::visualize(v, pivot_index, j, low);
+            SDL_Delay(10);
             ++low;
         }
     }
@@ -73,8 +108,8 @@ void InsertionSorter::sort(vector<int> &v) {
     for (int i=0; i < len; ++i) { // iterate over the array
         for (int j=i; j > 0 && v[j-1] > v[j]; --j) { // keep swapping with smaller previous value until in correct position
             std::swap(v[j-1], v[j]);
-            app.visualize(j, j-1);
-            app.delay(10);
+            Sorter::visualize(v, j, j-1);
+            SDL_Delay(10);
         }
     }
 }
@@ -86,8 +121,8 @@ void SelectionSorter::sort(vector<int> &v) {
         for (int j=i+1; j < len; ++j) {  // finds the new minimum
             if (v[j] < v[min]) {
                 min = j;
-                app.visualize(i, min);
-                app.delay(10);
+                Sorter::visualize(v, i, min);
+                SDL_Delay(10);
             }
         }
         if (i != min)
@@ -133,11 +168,11 @@ void MergeSorter::merge(vector<int> &v, int left, int mid, int right) {
     while (i < nleft && j < nright) { // if both are not empty
         if (larr[i] <= rarr[j]) {
             v[k] = larr[i];
-            app.visualize();
+            Sorter::visualize(v);
             ++i;
         } else {
             v[k] = rarr[i];
-            app.visualize();
+            Sorter::visualize(v);
             ++j;
         }
         ++k;
@@ -145,13 +180,13 @@ void MergeSorter::merge(vector<int> &v, int left, int mid, int right) {
 
     while (i < nleft) {
         v[k] = larr[i];
-        app.visualize();
+        Sorter::visualize(v);
         ++i; ++k;
     }
 
     while (j < nright) {
         v[k] = rarr[j];
-        app.visualize();
+        Sorter::visualize(v);
         ++j; ++k;
     }
 
