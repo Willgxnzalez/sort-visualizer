@@ -1,38 +1,39 @@
-#ifndef SORT_H
-#define SORT_H
+#ifndef SORT_HPP
+#define SORT_HPP
 
-#include <iostream>
-#include <string>
 #include <vector>
-#include "app.h"
+#include <../SDL2/SDL.h>
+#include "const.hpp"
 using namespace std;
 
 class Sorter {
+    
     public:
-        Sorter(App &a) : app(a) {}
-        virtual void sort(vector<int> &v) = 0;
+        Sorter() {}
+        virtual void sort(vector<int> &v) {}
         static bool isSorted(vector<int> &v);
         static void randomizeVector(vector<int> &v); 
+        void setRenderer(SDL_Renderer *r);
+        void clear_vis_screen();
+        void visualize(vector<int> &v, int h1 = -1, int h2 = -1, int h3 = -1, bool complete = false);
         virtual ~Sorter() {}
 
     protected:
-        App &app;
-
+        SDL_Renderer *ren;
 };
 
 class BubbleSorter : public Sorter {
     public:
-        BubbleSorter(App &a) : Sorter(a) {}
-        void sort(vector<int> &v);
+        BubbleSorter() : Sorter() {}
+        virtual void sort(vector<int> &v) override;
         ~BubbleSorter() {}
 };
 
 class QuickSorter : public Sorter {
     public:
-        QuickSorter(App &a) : Sorter(a) {}
-        void sort(vector<int> &v);
+        QuickSorter() : Sorter() {}
+        virtual void sort(vector<int> &v) override;
         ~QuickSorter() {}
-
     private:
         void quicksort(vector<int> &v, int low, int high);
         int medianOfThree(vector<int> &v, int low, int high);
@@ -41,22 +42,22 @@ class QuickSorter : public Sorter {
 
 class InsertionSorter : public Sorter {
     public:
-        InsertionSorter(App &a) : Sorter(a) {}
-        void sort(vector<int> &v);
+        InsertionSorter() : Sorter() {}
+        virtual void sort(vector<int> &v) override;
         ~InsertionSorter() {}
 };
 
 class SelectionSorter : public Sorter {
     public:
-        SelectionSorter(App &a) : Sorter(a) {}
-        void sort(vector<int> &v);
+        SelectionSorter() : Sorter() {}
+        virtual void sort(vector<int> &v) override;
         ~SelectionSorter() {}
 };
 
 class MergeSorter : public Sorter {
     public:
-        MergeSorter(App &a) : Sorter(a) {}
-        void sort(vector<int> &v);
+        MergeSorter() : Sorter() {}
+        virtual void sort(vector<int> &v) override;
         ~MergeSorter() {}
     private:
         void merge(vector<int> &v, int left, int mid, int right);
