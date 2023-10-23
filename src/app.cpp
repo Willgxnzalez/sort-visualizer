@@ -39,7 +39,7 @@ bool App::init() {
 void App::render_background() {
     SDL_SetRenderDrawColor(ren, 24,24,24, 255);
     SDL_RenderClear(ren);
-    SDL_SetRenderDrawColor(ren, 60, 60, 60, 255);
+    SDL_SetRenderDrawColor(ren, 40, 40, 40, 255);
     SDL_Rect sidebar{visWidth, 0, sidebarWidth, screenHeight};
     SDL_RenderFillRect(ren, &sidebar);
 }
@@ -48,19 +48,19 @@ void App::menu() {
     cout << "\n            SORTING VISUALIZER            \n"
     << "------------------------------------------\n"
     << "   Q/ESC: exit the sorting visualizer.\n"
-    << "   0: generate a new randomized array.\n"
-    << "   1: start Bubble Sort Algorithm.\n"
-    << "   2: start Quick Sort Algorithm.\n"
-    << "   3: start Insertion Sort Algorithm.\n"
-    << "   4: start Selection Sort Algorithm.\n"
-    << "\n\n[WARNING] Giving multiple commands at once can cause unexpected behavior. Please allow the current command to finish before giving another.";
+    << "   0: Generate a new randomized array.\n"
+    << "   1: Start Bubble Sort Algorithm.\n"
+    << "   2: Start Quick Sort Algorithm.\n"
+    << "   3: Start Insertion Sort Algorithm.\n"
+    << "   4: Start Selection Sort Algorithm.\n"
+    << "   SPACE: Cancel the visualization.\n\n\n";
 }
 
 void App::run() {
     if (init())
         mainloop();
     else
-        cout << "Visualizer failed to initialize" << endl;
+        cout << "[ERROR]Visualizer failed to initialize" << endl;
 }
 
 void App::mainloop() {
@@ -81,7 +81,7 @@ void App::mainloop() {
                     break;
                 } else if (key == SDLK_0) {
                     Sorter::randomizeVector(v);
-                    sorter = new Sorter();
+                    sorter = new BubbleSorter();
                     sorter->setRenderer(ren);
                     sorter->visualize(v);
                     delete sorter;
@@ -97,13 +97,17 @@ void App::mainloop() {
                 } else if (key == SDLK_5) {
                     sorter = new MergeSorter();
                 } else break;
-
+                
                 sorter->setRenderer(ren);
-                sorter->sort(v);
-                if (Sorter::isSorted(v))
+                sorter->sort(v); 
+
+                if (Sorter::isSorted(v)) {
                     sorter->visualize(v, -1,-1,-1,true);
-                else
-                    std::cout << "[ERROR]Vector was not correctly sorted\n";
+
+                } else {
+                    std::cout << "[ABORT]User force quit the current sort\n";
+                }
+                Sorter::randomizeVector(v);
                 delete sorter;
                 
             }

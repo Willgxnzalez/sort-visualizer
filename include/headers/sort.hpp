@@ -9,17 +9,19 @@ using namespace std;
 class Sorter {
     
     public:
-        Sorter() {}
-        virtual void sort(vector<int> &v) {}
+        Sorter() : running(true) {}
+        virtual void sort(vector<int> &v) = 0;
         static bool isSorted(vector<int> &v);
         static void randomizeVector(vector<int> &v); 
         void setRenderer(SDL_Renderer *r);
-        void clear_vis_screen();
+        void clear_screen();
         void visualize(vector<int> &v, int h1 = -1, int h2 = -1, int h3 = -1, bool complete = false);
+        bool cancel_sort();
         virtual ~Sorter() {}
 
     protected:
         SDL_Renderer *ren;
+        bool running;
 };
 
 class BubbleSorter : public Sorter {

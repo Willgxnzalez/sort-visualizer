@@ -20,14 +20,14 @@ void Sorter::randomizeVector(vector<int> &v) {
 
 void Sorter::setRenderer(SDL_Renderer *r) { ren = r; }
 
-void Sorter::clear_vis_screen() {
+void Sorter::clear_screen() {
     SDL_SetRenderDrawColor(ren, 24,24,24, 255);
     SDL_Rect visScreen{0, 0, visWidth, screenHeight};
     SDL_RenderFillRect(ren, &visScreen);
 }
 
 void Sorter::visualize(vector<int> &v, int h1, int h2, int h3, bool complete) {
-    clear_vis_screen(); // clear the screen before the next screen is drawn
+    clear_screen(); // clear the visualizer screen before the next screen is drawn
 
     int len = v.size();
     for (int i=0; i < len; ++i) {
@@ -53,6 +53,22 @@ void Sorter::visualize(vector<int> &v, int h1, int h2, int h3, bool complete) {
     SDL_RenderPresent(ren);
 }
 
+bool Sorter::cancel_sort() {
+    SDL_Event E;
+    while(SDL_PollEvent(&E)) {
+        if (E.type == SDL_QUIT) {
+            return true;
+        } else if (E.type == SDL_KEYDOWN) {
+            auto key = E.key.keysym.sym;
+            if (key == SDL_QUIT) {
+                return true;
+            } else if (key == SDLK_SPACE) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 void BubbleSorter::sort(vector<int> &v) {
     int len = v.size();
@@ -61,7 +77,7 @@ void BubbleSorter::sort(vector<int> &v) {
             if (v[i] > v[j])
                 std::swap(v[i], v[j]);
             Sorter::visualize(v, i, j);
-            SDL_Delay(2);
+            if (Sorter::cancel_sort()) return;
         }
     }
 }
@@ -75,8 +91,8 @@ int QuickSorter::medianOfThree(vector<int> &v, int low, int high) {
     if (v[mid] < v[low]) std::swap(v[low], v[mid]);
     if (v[high] < v[low]) std::swap(v[low], v[high]);
     if (v[mid] < v[high]) std::swap(v[mid], v[high]);
-    Sorter::visualize(v);
-    //SDL_Delay(5);
+    Sorter::visualize(v, high, low, mid);
+    SDL_Delay(4);
     return high;
 }
 
@@ -86,7 +102,8 @@ int QuickSorter::partition(vector<int> &v, int low, int high) {
         if (v[j] <= v[pivot_index]) {
             std::swap(v[low], v[j]);
             Sorter::visualize(v, pivot_index, j, low);
-            SDL_Delay(10);
+            if (Sorter::cancel_sort()) {this->running = false; return 0;}
+            SDL_Delay(4);
             ++low;
         }
     }
@@ -98,6 +115,7 @@ int QuickSorter::partition(vector<int> &v, int low, int high) {
 void QuickSorter::quicksort(vector<int> &v, int low, int high) {
     if (low < high) {
         int pivot = partition(v, low, high);
+        if (!running) return;
         quicksort(v, low, pivot-1);
         quicksort(v, pivot+1, high);
     }
@@ -109,7 +127,8 @@ void InsertionSorter::sort(vector<int> &v) {
         for (int j=i; j > 0 && v[j-1] > v[j]; --j) { // keep swapping with smaller previous value until in correct position
             std::swap(v[j-1], v[j]);
             Sorter::visualize(v, j, j-1);
-            SDL_Delay(10);
+            if (Sorter::cancel_sort()) return;
+            SDL_Delay(8);
         }
     }
 }
@@ -122,7 +141,8 @@ void SelectionSorter::sort(vector<int> &v) {
             if (v[j] < v[min]) {
                 min = j;
                 Sorter::visualize(v, i, min);
-                SDL_Delay(10);
+                if (Sorter::cancel_sort()) return;
+                SDL_Delay(8);
             }
         }
         if (i != min)
